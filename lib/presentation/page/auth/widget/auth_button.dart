@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:money_app/config/app_color.dart';
 
-class AuthButton extends StatelessWidget {
+class AuthButton extends StatefulWidget {
   final String name;
-  const AuthButton({super.key, required this.name});
+  final VoidCallback onPressed;
+  const AuthButton({super.key, required this.name, required this.onPressed});
 
+  @override
+  State<AuthButton> createState() => _AuthButtonState();
+}
+
+class _AuthButtonState extends State<AuthButton> {
   @override
   Widget build(BuildContext context) {
     return  Container(
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppColor.primary, AppColor.secondary],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight, 
-        ),
+        color: AppColor.primary,
         borderRadius: BorderRadius.circular(10),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: widget.onPressed,
         style: ElevatedButton.styleFrom(
           fixedSize: Size(395, 50),
           backgroundColor: Colors.transparent,
@@ -27,7 +29,7 @@ class AuthButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          name,
+          widget.name,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
