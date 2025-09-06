@@ -1,14 +1,19 @@
 
 
 
+import 'package:d_info/d_info.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 import 'package:money_app/config/app_asset.dart';
 import 'package:money_app/config/app_color.dart';
+import 'package:money_app/data/source/source_user.dart';
 import 'package:money_app/presentation/page/auth/widget/auth_button.dart';
 import 'package:money_app/presentation/page/auth/widget/auth_field.dart';
+import 'package:money_app/presentation/page/homepage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,9 +27,26 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>(); 
   
-  login(){
+  login() async{
     if(formKey.currentState!.validate()){
-      
+      bool success = await SourceUser.login(emailController.text, passwordController.text);
+      if(success){
+        // ignore: use_build_context_synchronously
+        DInfo.dialogSuccess(context, 'Login Success');
+        // ignore: use_build_context_synchronously
+        DInfo.closeDialog(
+          // ignore: use_build_context_synchronously
+          context,
+          actionAfterClose: (){
+            Get.off(()=> Homepage());
+          }
+        );
+      }else{
+         // ignore: use_build_context_synchronously
+        DInfo.dialogError(context, 'Login Gagal');
+        // ignore: use_build_context_synchronously
+        DInfo.closeDialog(context);
+      }
     }
   }
   @override

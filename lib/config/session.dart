@@ -15,7 +15,7 @@ class Session {
     if (success) {
       // ignore: non_constant_identifier_names
       final cUser = Get.put(CUser());
-      cUser.setData(User);
+      cUser.setData(user);
     }
     return success;
   }
